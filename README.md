@@ -3,7 +3,6 @@
 
 ## 目录
 1. [仓库更新 Top News](#仓库更新)
-2. [相关仓库 Related code](#相关仓库)
 3. [性能情况 Performance](#性能情况)
 4. [所需环境 Environment](#所需环境)
 5. [注意事项 Attention](#注意事项)
@@ -15,13 +14,6 @@
 ## Top News
 **`2022-03`**:**创建仓库，支持不同模型训练，支持大量可调整参数，支持step、cos学习率下降法、支持adam、sgd优化器选择、支持学习率根据batch_size自适应调整、新增图片裁剪。**  
 
-## 相关仓库
-| 模型 | 路径 |
-| :----- | :----- |
-facenet | https://github.com/bubbliiiing/facenet-pytorch
-arcface | https://github.com/bubbliiiing/arcface-pytorch
-retinaface | https://github.com/bubbliiiing/retinaface-pytorch
-facenet + retinaface | https://github.com/bubbliiiing/facenet-retinaface-pytorch
 
 ## 性能情况
 | 训练数据集 | 权值文件名称 | 测试数据集 | 输入图片大小 | accuracy | Validation rate |
@@ -33,14 +25,12 @@ facenet + retinaface | https://github.com/bubbliiiing/facenet-retinaface-pytorch
 （arcface_mobilenet的准确度相比其它较高是因为使用了backbone的预训练权重，正在努力调参中。）
 
 ## 所需环境
-pytorch==1.2.0
+pytorch
 
 ## 文件下载
 已经训练好的权值可以在百度网盘下载。    
 链接: https://pan.baidu.com/s/1ElJlfmMwOGX699MsgLY8qA 提取码: z3rq   
 
-训练用的CASIA-WebFaces数据集以及评估用的LFW数据集可以在百度网盘下载。    
-链接: https://pan.baidu.com/s/1qMxFR8H_ih0xmY-rKgRejw 提取码: bcrq   
 
 ## 预测步骤
 ### a、使用预训练权重
@@ -50,41 +40,6 @@ img\1_001.jpg
 img\1_002.jpg
 ```  
 2. 也可以在百度网盘下载权值，放入model_data，修改arcface.py文件的model_path后，输入：
-```python
-img\1_001.jpg
-img\1_002.jpg
-```  
-### b、使用自己训练的权重
-1. 按照训练步骤训练。  
-2. 在arcface.py文件里面，在如下部分修改model_path和backbone使其对应训练好的文件；**model_path对应logs文件夹下面的权值文件，backbone对应主干特征提取网络**。  
-```python
-_defaults = {
-    #--------------------------------------------------------------------------#
-    #   使用自己训练好的模型进行预测要修改model_path，指向logs文件夹下的权值文件
-    #   训练好后logs文件夹下存在多个权值文件，选择验证集损失较低的即可。
-    #   验证集损失较低不代表准确度较高，仅代表该权值在验证集上泛化性能较好。
-    #--------------------------------------------------------------------------#
-    "model_path"        : "model_data/arcface_mobilefacenet.pth",
-    #--------------------------------------------------------------------------#
-    #   输入图片的大小。
-    #--------------------------------------------------------------------------#
-    "input_shape"       : [112, 112, 3],
-    #--------------------------------------------------------------------------#
-    #   所使用到的主干特征提取网络，与训练的相同
-    #--------------------------------------------------------------------------#
-    "backbone"          : "arcface_mobilefacenet",
-    #--------------------------------------#
-    #   是否进行不失真的resize
-    #--------------------------------------#
-    "letterbox_image"   : True,
-    #--------------------------------------#
-    #   是否使用Cuda
-    #   没有GPU可以设置成False
-    #--------------------------------------#
-    "cuda"              : True,
-}
-```
-3. 运行predict.py，输入  
 ```python
 img\1_001.jpg
 img\1_002.jpg
